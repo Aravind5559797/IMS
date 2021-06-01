@@ -1,0 +1,136 @@
+﻿@model IMS.ViewModels.UpsertVM;
+
+@{
+    var title = "Create Shop";
+}
+
+
+
+
+@section Stylesheets {
+    <link href="\css\upsert.css" rel="stylesheet">
+}
+
+
+@*Since we are dealing with image , we have to change the enctype*@
+
+<div class="row justify-content-center mt-4 pb-3 animate__animated animate__fadeIn">
+    <div class="col-lg-8">
+        <form method="post" enctype="multipart/form-data" class="upsert-form">
+            @if (Model.Shop.ShopId != 0)
+            {
+                title = "Edit Shop";
+                <input asp-for="Shop.ShopId" hidden />
+
+            }
+            <div class="form-group p-3">
+                <h2 class="text-black font-weight-bold animate__animated animate__fadeIn">@title</h2>
+            </div>
+
+            @*SHOP NAME*@
+            <div class="form-group">
+                <div class="col">
+                    <label asp-for="Shop.ShopName"></label>
+                </div>
+                <div class="col">
+                    <input type="text" class="form-control" asp-for="Shop.ShopName" />
+                    <span asp-validation-for="Shop.ShopName" class="text-danger"></span>
+                </div>
+            </div>
+
+            @*SHOP DESSCRIPTIONS*@
+            <div class="form-group">
+                <div class="col">
+                    <label asp-for="Shop.Description"></label>
+                </div>
+                <div class="col">
+                    <textarea class="form-control summernote description" asp-for="Shop.Description"></textarea>
+                    <span asp-validation-for="Shop.Description" class="text-danger"></span>
+                </div>
+
+            </div>
+
+            @*SHOP LINK*@
+            <div class="form-group">
+                <div class="col">
+                    <label asp-for="Shop.Link"></label>
+                </div>
+                <div class="col">
+                    <input class="form-control" asp-for="Shop.Link">
+                    <span asp-validation-for="Shop.Link" class="text-danger"></span>
+                </div>
+
+            </div>
+
+            @*SHOP DROPDOWN*@
+            <div class="form-group">
+                <div class="col">
+                    <label asp-for="Shop.PlatformId"></label>
+                </div>
+                <div class="col">
+                    <select asp-for="Shop.PlatformId" asp-items="@Model.Platforms " class="form-control">
+                        <option selected disabled>--Select Category--</option>
+                    </select>
+                    <span asp-validation-for="Shop.PlatformId" class="text-danger"></span>
+                </div>
+            </div>
+
+
+            @*UPDATE OR CREATE*@
+            <div class="row" >
+                <div class="col-lg-6">
+                    @if (Model.Shop.ShopId != 0)
+                    {
+                        //update button
+                        <button  class="btn btn-info  m-3 upsert-btn d-block ml-2 custom-btn-form" value="Update" style="width:80%">Update</button>
+                    }
+                    else
+                    {
+                        //create
+                        <button class="btn btn-primary m-3  upsert-btn d-block custom-btn-form" style="width:80%" value="Create" >Create</button>
+
+                    }
+                </div>
+
+                <div class="col-lg-6">
+                    <a asp-action="Index" class="btn btn-success m-3  d-block custom-btn-form" style="width:80%">Back</a>
+
+                </div>
+            </div>
+        </form>
+
+
+    </div>
+    @*<div class="col">
+
+        </div>*@
+</div>
+
+
+
+
+@section Scripts {
+
+    <partial name="_validationscriptspartial.cshtml">
+
+        <script>
+
+            jQuery.validator.setDefaults({
+                // This will ignore all hidden elements alongside `contenteditable` elements
+                // that have no `name` attribute
+                ignore: ":hidden, [contenteditable='true']:not([name])"
+            });
+
+            //jquery for sumemr note
+            $(document).ready(function () {
+                $('.summernote').summernote({
+                    height: 250
+                }
+
+                );
+            });
+
+
+        </script>
+
+}

@@ -1,0 +1,212 @@
+﻿@model IMS.Models.Product
+
+@{
+    var title = "Delete Product";
+}
+
+
+
+@section Stylesheets {
+    <link href="\css\upsert.css" rel="stylesheet">
+}
+
+
+
+@*Since we are dealing with image , we have to change the enctype*@
+
+<div class="row justify-content-center mt-4 pb-3 animate__animated animate__fadeIn">
+    <div class="col-lg-8">
+
+
+        <form method="post" enctype="multipart/form-data" class="upsert-form" asp-action="DeletePost">
+       
+           
+                <input value="@Model.ProductId" name="id" hidden />
+
+
+
+           <div class="form-group p-3">
+                <h2 class="text-black font-weight-bold animate__animated animate__fadeIn">@title</h2>
+            </div>
+
+            @*PRODUCT NAME*@
+            <div class="form-group">
+                <div class="col">
+                    <label asp-for="Name"></label>
+                </div>
+                <div class="col">
+                    <input type="text" class="form-control" asp-for="Name" disabled/>
+                </div>
+            </div>
+
+            @*PRODUCT PRICE*@
+            <div class="form-group">
+                <div class="col">
+                    <label asp-for="Price"></label>
+                </div>
+                <div class="col">
+                    <input type="number" class="form-control" asp-for="Price" disabled/>
+                </div>
+            </div>
+
+            @*PRODUCT QUANTITY*@
+            <div class="form-group">
+                <div class="col">
+                    <label asp-for="Quantity"></label>
+                </div>
+                <div class="col">
+                    <input type="number" class="form-control" asp-for="Quantity" disabled/>
+
+                </div>
+            </div>
+
+            @*PRODUCT SHOP DESCRIPTION*@
+            <div class="form-group">
+                <div class="col">
+                    <label asp-for="ShortDescription"></label>
+                </div>
+                <div class="col">
+                    <input type="text" class="form-control" asp-for="ShortDescription" disabled/>
+                </div>
+            </div>
+
+            @*PRODUCT DESSCRIPTIONS*@
+            <div class="form-group">
+                <div class="col">
+                    <label asp-for="Description"></label>
+                </div>
+                <div class="col">
+                    <textarea class="form-control summernote description" asp-for="Description"></textarea>
+                </div>
+            </div>
+
+
+            @*PRODUCT IMAGE*@
+            <!--<div class="form-group">
+                <div class="col">
+                    Image
+                </div>
+                <div class="col">
+                    <input type="file" name="files" id="uploadBox" multiple class="form-control" />
+                </div>
+            </div>-->
+
+
+
+            @*CHECKBOX OF SHOPS*@
+            <div class="form-group">
+                <div class="col">
+                    Shops
+                </div>
+                <div class="col">
+                    @if (Model.Shops.Count() > 0)
+                    {
+
+                        @foreach (var s in Model.Shops)
+                        {
+
+                            string isChecked = "";
+
+
+                            isChecked = "checked";
+
+
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="checkbox" value="@s.ShopId" name="@s.ShopId" @Html.Raw(isChecked)>
+                                <label class="form-check-label" for="inlineCheckbox1">@s.ShopName</label>
+                            </div>
+                        }
+
+
+                    }
+
+                    else
+                    {
+
+
+
+                        <div class="alert alert-danger animate__animated animate__zoomIn" role="alert">
+                            No shops available
+                        </div>
+
+                    }
+                </div>
+            </div>
+
+            @*BUTTONS*@
+            <div class="row">
+                <div class="col-lg-6">
+
+
+                        <button class="btn btn-danger  m-3 upsert-btn d-block custom-btn-form" value="Delete" style="width:80%">Delete</button>
+         
+
+                </div>
+                <div class="col-lg-6">
+
+
+                    <a asp-action="Index" class="btn btn-success m-3  d-block custom-btn-form" style="width:80%">Back</a>
+                </div>
+            </div>
+
+        </form>
+    </div>
+  
+
+    <div class="col-lg-4">
+        <h3 class="font-weight-bold">Current Image</h3>
+        @* Keep this empty *@
+        @if (Model.IsApi)
+        {
+            <img src="@Model.Image" class="d-block w-100 current-image">
+
+
+        }
+        else
+        {
+            <img src="@WC.ImagePathProducts@Model.Image" class="d-block w-100 current-image">
+        }
+
+
+
+    </div>
+ 
+</div>
+
+
+
+@section Scripts {
+
+    <partial name="_validationscriptspartial.cshtml">
+
+        <script>
+
+            jQuery.validator.setDefaults({
+                // This will ignore all hidden elements alongside `contenteditable` elements
+                // that have no `name` attribute
+                ignore: ":hidden, [contenteditable='true']:not([name])"
+            });
+
+            //jquery for sumemr note
+            $(document).ready(function () {
+                $('.summernote').summernote({
+                    height: 250
+                }
+
+                );
+            });
+
+            //event for submit button to check if image has been uploaded
+            document.querySelector("#submit_btn").addEventListener('click', function () {
+                if (document.querySelector("#uploadBox").value == "") {
+                    event.preventDefault()
+                    Swal.fire(
+                        'Error!',
+                        'Please upload an Image!',
+                        "error"
+                    )
+                }
+            })
+        </script>
+
+}

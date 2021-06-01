@@ -1,0 +1,133 @@
+﻿@model IMS.Models.Shop;
+
+@{
+    var title = "Delete Shop";
+}
+
+
+@section Stylesheets {
+    <link href="\css\upsert.css" rel="stylesheet">
+}
+
+
+<div class="row justify-content-center mt-4 pb-3 animate__animated animate__fadeIn">
+    <div class="col-lg-8">
+        <form method="post" enctype="multipart/form-data" class="upsert-form" asp-action="DeletePost">
+            <input asp-for="ShopId" hidden />
+            <div class="form-group p-3">
+                <h2 class="text-black font-weight-bold animate__animated animate__fadeIn">@title</h2>
+            </div>
+
+            @*SHOP NAME*@
+            <div class="form-group">
+                <div class="col">
+                    <label asp-for="ShopName"></label>
+                </div>
+                <div class="col">
+                    <input type="text" class="form-control" asp-for="ShopName" disabled />
+                </div>
+            </div>
+
+            @*SHOP DESSCRIPTIONS*@
+            <div class="form-group">
+                <div class="col">
+                    <label asp-for="Description"></label>
+                </div>
+                <div class="col">
+                    <textarea class="form-control summernote description" asp-for="Description"></textarea>
+                </div>
+
+            </div>
+
+            @*SHOP LINK*@
+            <div class="form-group">
+                <div class="col">
+                    <label asp-for="Link"></label>
+                </div>
+                <div class="col">
+                    <input class="form-control" asp-for="Link" disabled>
+                </div>
+
+            </div>
+
+            @*SHOP DROPDOWN*@
+            <div class="form-group">
+                <div class="col">
+                    <label asp-for="Platform.PlatformName"></label>
+                </div>
+                <div class="col">
+                    <input class="form-control" asp-for="Platform.PlatformName" disabled>
+
+                </div>
+            </div>
+
+
+            @*UPDATE OR CREATE*@
+            <divc class="row ">
+                <div class="col-lg-6">
+                    <input type="submit" class="btn btn-danger  m-3  d-block custom-btn-form" value="Delete" style="width:80%" />
+                </div>
+
+                <div class="col-lg-6">
+                    <a asp-action="Index" class="btn btn-success m-3  d-block custom-btn-form" style="width:80%">Back</a>
+                </div>
+            </divc>
+        </form>
+
+
+    </div>
+    @*<div class="col">
+
+        </div>*@
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+@section Scripts {
+
+    <partial name="_validationscriptspartial.cshtml">
+
+        <script>
+
+            //jquery for sumemr note
+            $(document).ready(function () {
+                $('.summernote').summernote({
+                    height: 250
+                }
+
+                );
+            });
+        </script>
+
+}

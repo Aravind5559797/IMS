@@ -1,0 +1,80 @@
+﻿.upsert-form {
+    background-color: #e6e4e4;
+    margin-top:10px;
+    border-radius:8px;
+}
+
+
+.description{
+    background-color:white;
+}
+
+.summernote{
+    background-color:white !important;
+}
+
+
+
+/*FORM BUTTON*/
+.custom-btn-form:focus {
+    outline: none;
+    box-shadow: 3px 4px #888888;
+}
+
+.custom-btn-form {
+/*    border-radius: 50%/25%;*/
+    box-shadow: 3px 4px #888888;
+    transition: box-shadow 0.15s;
+    animation: none
+}
+
+.custom-btn-form:hover {
+    animation: pulse 1s infinite;
+}
+
+@keyframes pulse {
+    0% {
+        box-shadow: 0 0 0 0 rgb(249 211 3);
+    }
+
+    70% {
+        box-shadow: 0 0 0 10px rgba(204, 169, 44, 0);
+    }
+
+    100% {
+        box-shadow: 0 0 0 0 rgba(204, 169, 44, 0);
+    }
+}
+
+
+
+
+/*IMAGE DISPLAY*/
+
+/* The animation code */
+@keyframes pulseImage {
+    0% {
+        border: 5px solid black;
+    }
+
+    70% {
+        border: 5px solid #fbbe28;
+    }
+
+/*    50% {
+        border: 5px solid #fbbe28;
+    }*/
+
+    100% {
+        border: 5px solid black;
+    }
+}
+
+/* The element to apply the animation to */
+.current-image {
+    border: 5px solid black;
+    border-radius:5px;
+    animation-name: example;
+    animation: pulseImage 2s infinite;
+}
+

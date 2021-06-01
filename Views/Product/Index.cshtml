@@ -1,0 +1,135 @@
+﻿@model IEnumerable<Product>;
+
+@section Stylesheets {
+    <link href="\css\index.css" rel="stylesheet">
+}
+
+
+<div class="container">
+    <div class="row pt-4">
+        <div class="col-2">
+            <h2 class="text-black font-weight-bold animate__animated animate__fadeIn">Product List</h2>
+        </div>
+        <div class="col-5">
+
+        </div>
+        <div class="col-5 text-right">
+            <button class="add-button animate__animated animate__fadeIn"><a asp-action="Upsert" class="animate__animated animate__fadeIn  text-black add-anchor"><i class="fas fa-plus"></i> Add Entry</a></button>
+        </div>
+    </div>
+
+    <br />
+    <br />
+
+    <div class="row">
+        <div class="col">
+            @if (Model!=null && Model.Count() > 0)
+            {<div class="table-responsive">
+    <table class="table table-hover animate__animated animate__fadeIn text-center">
+        <thead class="thead-light">
+            <tr>
+                <th>
+                    Product Name
+                </th>
+                <th>
+                    Image
+                </th>
+                <th class="w-80">
+                    Description
+                </th>
+                <th>
+                    Short Description
+                </th>
+
+                <th>
+                    Price($USD)
+                </th>
+                <th>
+                    Quantity
+                </th>
+                <th>
+                    Shops Present
+                </th>
+
+                <th>
+                    Update
+                </th>
+                <th>
+                    Delete
+                </th>
+
+            </tr>
+        </thead>
+
+        <tbody>
+            @foreach (var obj in Model)
+            {
+                <tr>
+                    <td>@obj.Name</td>
+                    <td>
+                        @if (obj.IsApi)
+                        {
+                            <img src="@obj.Image" class="platform-img">
+                        }
+                        else
+                        {
+                            <img src="@WC.ImagePathProducts@obj.Image" class="platform-img">
+                        }
+
+                    </td>
+                    @*<td>
+                            <a class="btn btn-success" asp-action="ShowProducts" asp-route-id="@obj.ProductId" target="_blank"><i class="fas fa-luggage-cart"></i></a>
+                        </td>*@
+                    <td>@obj.Description</td>
+                    <td>@obj.ShortDescription</td>
+                    <td>@obj.Price</td>
+                    <td>@obj.Quantity</td>
+
+                    <td>
+                        <ul>
+                            @if (obj.Shops != null)
+                            {
+                                @foreach (var shop in obj.Shops)
+                                {
+                                    <li>@shop.ShopName</li>
+                                }
+                            }
+
+
+
+                        </ul>
+                    </td>
+
+
+
+                    <td>
+                        <a class="btn btn-primary custom-btn " asp-controller="Product" asp-action="Upsert" asp-route-id="@obj.ProductId"><i class="fas fa-edit"></i></a>
+                    </td>
+
+                    <td>
+                        <a class="btn btn-danger mx-2 custom-btn" asp-controller="Product" asp-action="Delete" asp-route-id="@obj.ProductId"><i class="fas fa-trash-alt"></i></a>
+                    </td>
+
+
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+            }
+            else
+            {
+                <div class="alert alert-danger animate__animated animate__zoomIn" role="alert">
+                    No Products exists. Please add a Product
+                </div>
+            }
+        </div>
+    </div>
+</div>
+@section Scripts{
+
+    <script>
+
+    </script>
+
+}

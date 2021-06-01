@@ -1,0 +1,234 @@
+﻿@model IMS.ViewModels.ProductUpsertVM
+
+@{
+    var title = "Create Product";
+}
+
+
+
+@section Stylesheets {
+    <link href="\css\upsert.css" rel="stylesheet">
+}
+
+
+
+@*Since we are dealing with image , we have to change the enctype*@
+
+<div class="row justify-content-center mt-4 pb-3 animate__animated animate__fadeIn">
+    <div class="col-lg-8">
+
+
+        <form method="post" enctype="multipart/form-data" class="upsert-form">
+            @if (Model.Product.ProductId != 0)
+            {
+                title = "Edit Product";
+                <input asp-for="Product.ProductId" hidden />
+                <input id="isEdit" hidden />
+            }
+
+            <input hidden asp-for="CurrentShopIds" />
+            <input hidden asp-for="Product.Shops" />
+            <input hidden asp-for="Product.User" />
+
+            <div class="form-group p-3">
+                <h2 class="text-black font-weight-bold animate__animated animate__fadeIn">@title</h2>
+            </div>
+
+            @*PRODUCT NAME*@
+            <div class="form-group">
+                <div class="col">
+                    <label asp-for="Product.Name"></label>
+                </div>
+                <div class="col">
+                    <input type="text" class="form-control" asp-for="Product.Name" />
+                    <span asp-validation-for="Product.Name" class="text-danger"></span>
+                </div>
+            </div>
+
+            @*PRODUCT PRICE*@
+            <div class="form-group">
+                <div class="col">
+                    <label asp-for="Product.Price"></label>
+                </div>
+                <div class="col">
+                    <input type="number" class="form-control" asp-for="Product.Price" />
+                    <span asp-validation-for="Product.Price" class="text-danger"></span>
+                </div>
+            </div>
+
+            @*PRODUCT QUANTITY*@
+            <div class="form-group">
+                <div class="col">
+                    <label asp-for="Product.Quantity"></label>
+                </div>
+                <div class="col">
+                    <input type="number" class="form-control" asp-for="Product.Quantity" />
+                    <span asp-validation-for="Product.Quantity" class="text-danger"></span>
+                </div>
+            </div>
+
+            @*PRODUCT SHOP DESCRIPTION*@
+            <div class="form-group">
+                <div class="col">
+                    <label asp-for="Product.ShortDescription"></label>
+                </div>
+                <div class="col">
+                    <input type="text" class="form-control" asp-for="Product.ShortDescription" />
+                    <span asp-validation-for="Product.ShortDescription" class="text-danger"></span>
+                </div>
+            </div>
+
+            @*PRODUCT DESSCRIPTIONS*@
+            <div class="form-group">
+                <div class="col">
+                    <label asp-for="Product.Description"></label>
+                </div>
+                <div class="col">
+                    <textarea class="form-control summernote description" asp-for="Product.Description"></textarea>
+                    <span asp-validation-for="Product.Description" class="text-danger"></span>
+                </div>
+            </div>
+
+
+            @*PRODUCT IMAGE*@
+        <div class="form-group">
+            <div class="col">
+                Image
+            </div>
+            <div class="col">
+                <input type="file" name="files" id="uploadBox" multiple class="form-control" />
+            </div>
+            @if (Model.Product.ProductId != 0)
+            {
+        <div class="col">
+            <input type="checkbox" id="ifOldImage" name="ifOldImage" value="yes">
+            <label for="ifOldImage">Use the old image</label>
+        </div>
+
+            }
+        </div>
+
+
+
+            @*CHECKBOX OF SHOPS*@
+            <div class="form-group">
+                <div class="col">
+                    Shops
+                </div>
+                <div class="col">
+                    @if (Model.Shops != null && Model.Shops.Count() != 0)
+                    {
+                        @foreach (var s in Model.Shops)
+                        {
+
+                            string isChecked = "";
+
+                            if (Model.CurrentShopIds != null && Model.CurrentShopIds.Contains(s.Value))
+                            {
+                                isChecked = "checked";
+                            }
+
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="checkbox" value="@s.Value" name="@s.Value" @Html.Raw(isChecked)>
+                                <label class="form-check-label" for="inlineCheckbox1">@s.Text</label>
+                            </div>
+                        }
+                    }
+                    else
+                    {
+                        <div class="alert alert-danger animate__animated animate__zoomIn" role="alert">
+                            No shops available
+                        </div>
+                    }
+
+                </div>
+            </div>
+
+            @*BUTTONS*@
+            <div class="row">
+                <div class="col-lg-6">
+                    @if (Model.Product.ProductId != 0)
+                    {
+                        //update button
+    
+                        <button class="btn btn-info  m-3 upsert-btn d-block custom-btn-form" value="Update" style="width:80%" id="submit_btn">Update</button>
+                    }
+                    else
+                    {
+                        //create
+        
+                        //later add event listener to this
+                        <button class="btn btn-primary m-3  upsert-btn d-block custom-btn-form" style="width:80%" value="Create" id="submit_btn">Create</button>
+                    }
+                </div>
+                <div class="col-lg-6">
+ 
+
+                    <a asp-action="Index" class="btn btn-success m-3  d-block custom-btn-form" style="width:80%">Back</a>
+                </div>
+            </div>
+
+        </form>
+    </div>
+
+
+    @if (Model.Product.ProductId != 0)
+    {
+<div class="col-lg-4">
+    @* Keep this empty *@
+    <h3 class="font-weight-bold">Current Image</h3>
+    @if (Model.Product.IsApi)
+    {
+        <img src="@Model.Product.Image" class="d-block w-100 current-image">
+
+
+    }
+    else
+    {
+        <img src="@WC.ImagePathProducts@Model.Product.Image" class="d-block w-100 current-image">
+    }
+
+
+
+
+</div>
+    }
+    </div>
+
+
+
+    @section Scripts {
+
+        <partial name="_validationscriptspartial.cshtml">
+
+            <script>
+
+                jQuery.validator.setDefaults({
+                    // This will ignore all hidden elements alongside `contenteditable` elements
+                    // that have no `name` attribute
+                    ignore: ":hidden, [contenteditable='true']:not([name])"
+                });
+
+                //jquery for sumemr note
+                $(document).ready(function () {
+                    $('.summernote').summernote({
+                        height: 250
+                    }
+
+                    );
+                });
+
+                //event for submit button to check if image has been uploaded
+                document.querySelector("#submit_btn").addEventListener('click', function () {
+                    if (document.querySelector("#uploadBox").value == "" && (!document.querySelector("#ifOldImage").checked) ){
+                        event.preventDefault()
+                        Swal.fire(
+                            'Error!',
+                            'Please upload an Image!',
+                            "error"
+                        )
+                    }
+                })
+            </script>
+
+    }

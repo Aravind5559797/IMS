@@ -1,0 +1,137 @@
+﻿@model IEnumerable<Shop>;
+
+@section Stylesheets {
+    <link href="\css\index.css" rel="stylesheet">
+}
+
+
+<div class="container">
+    <div class="row pt-4">
+        <div class="col-2">
+            <h2 class="text-black font-weight-bold animate__animated animate__fadeIn">Shop List</h2>
+        </div>
+        <div class="col-5">
+
+        </div>
+        <div class="col-5 text-right">
+            
+        <button class="add-button animate__animated animate__fadeIn"><a asp-action="Upsert" class="animate__animated animate__fadeIn  text-black add-anchor"><i class="fas fa-plus"></i> Add Entry</a></button>
+        </div>
+    </div>
+
+    <br />
+    <br />
+    <div class="row">
+        <div class="col-12">
+
+
+            @if (Model != null && Model.Count() > 0)
+            {<div class="table-responsive">
+
+    <table class="table table-hover   animate__animated animate__fadeIn text-center">
+        <thead class="thead-light">
+            <tr>
+                <th>
+                    Shop Name
+                </th>
+                <th>
+                    Platform
+                </th>
+                <th>
+                    Products
+                </th>
+
+                <th class="w-80">
+                    Description
+                </th>
+                <th>
+                    Link
+                </th>
+                <th>
+                    Update
+                </th>
+                <th>
+                    Delete
+                </th>
+
+            </tr>
+        </thead>
+
+        <tbody>
+            @foreach (var obj in Model)
+            {
+                <tr>
+                    <td>@obj.ShopName</td>
+                    <td>
+                        <img src="@WC.ImagePathPlatforms@obj.Platform.Image" class="platform-img">
+                    </td>
+                    <td>
+
+                        <a class="btn btn-success custom-btn" asp-controller="Shop" asp-action="ShowProducts" asp-route-id="@obj.ShopId"><i class="fas fa-luggage-cart"></i></a>
+
+                    </td>
+                    <td>@obj.Description</td>
+                    <td><a href="@obj.Link" class="btn btn-info custom-btn" target="_blank"><i class="fas fa-store-alt"></i></a></td>
+
+                    <td>
+                        <a class="btn btn-primary custom-btn" asp-controller="Shop" asp-action="Upsert" asp-route-id="@obj.ShopId"><i class="fas fa-edit"></i></a>
+                    </td>
+
+                    <td>
+                        <a class="btn btn-danger mx-2 custom-btn" asp-controller="Shop" asp-action="Delete" asp-route-id="@obj.ShopId"><i class="fas fa-trash-alt"></i></a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+            }
+            else
+            {
+
+                <div class="alert alert-danger animate__animated animate__zoomIn" role="alert">
+                    No Shops exists. Please add a Shop
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+
+    <script>
+        /*      document.querySelector("#delete").addEventListener('click', sendRequest)*/
+
+        //async function sendRequest() {
+        //    var serviceURL = 'https://localhost:44306/Product/TestFunc';
+        //    user = { test: "hello" }
+        //    try {
+        //        const response =
+        //            await fetch(
+        //                serviceURL, {
+        //                method: 'POST',
+        //                headers: {
+        //                    'Content-Type': 'application/json;charset=utf-8'
+        //                },
+        //                body: JSON.stringify(user)
+        //            }
+
+        //            );
+        //        //responded but there is an error
+        //        if (!response.ok) {
+        //            console.log("no data")
+        //        }
+        //        else {
+        //            const student = await response.json()
+        //            console.log(student)
+        //        }
+
+        //    }
+        //    //no response , weird error that caused the service to crash etc.
+        //    catch (error) {
+        //        console.log(error)
+        //    }
+        //}
+    </script>
+
+}

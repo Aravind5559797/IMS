@@ -1,0 +1,104 @@
+﻿@model List<HistOrder>
+
+
+@section Stylesheets {
+    <link href="\css\index.css" rel="stylesheet">
+}
+
+
+<div class="container">
+    <div class="row pt-4">
+        <div class="col-2">
+            <h2 class="text-black font-weight-bold animate__animated animate__fadeIn">Order Products</h2>
+        </div>
+        <div class="col-5">
+
+        </div>
+        <div class="col-5 text-right">
+
+            <button class="add-button animate__animated animate__fadeIn"><a asp-action="Index"  class="animate__animated animate__fadeIn  text-black add-anchor"><i class="fas fa-long-arrow-alt-left"></i>Go Back</a></button>
+        </div>
+        <div class="col-5">
+
+        </div>
+    </div>
+
+    <br />
+    <br />
+
+    <div class="row">
+        <div class="col">
+            @if (Model.Count() > 0)
+            {<div class="table-responsive ">
+    <table class="table animate__animated animate__fadeIn text-center">
+        <thead class="thead-light">
+            <tr>
+                <th>
+                    ProductId
+                </th>
+                <th>
+                    Name
+                </th>
+                @*<th>
+                    Description
+                </th>*@
+                <th>
+                    Short Description
+                </th>
+                <th>
+                    Image
+                </th>
+                <th>
+                    Price
+                </th>
+                <th>
+                    Quantity
+                </th>
+            </tr>
+        </thead>
+
+        <tbody id="table-body">
+            @foreach (var product in Model)
+            {
+                <tr>
+                    <td>
+                        @product.HistOrderId
+                    </td>
+                    <td>
+                        @product.HistName
+                    </td>
+                    @*<td>
+                        @product.HistDescription
+                    </td>*@
+
+                    <td>
+                        @product.HistShortDescription
+                    </td>
+                    <td>
+                        <img src="@product.HistImage" class="platform-img" />
+                    </td>
+                    <td>
+                        @product.HistPrice
+                    </td>
+                    <td>
+                        @product.HistQuantity
+                    </td>
+
+                </tr>
+            }
+        </tbody>
+    </table>
+
+</div>
+
+            }
+            else
+            {
+                <span class="text text-danger animate__animated animate__zoomIn">Sorry no Orders are available!</span>
+            }
+
+        </div>
+    </div>
+
+
+

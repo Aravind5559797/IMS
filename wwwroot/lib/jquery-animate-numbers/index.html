@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>jQuery Animate Numbers Plugin Example</title>
+    
+	<!-- Demo CSS -->
+	<link rel="stylesheet" href="css/demo.css">
+     <style type="text/css">
+        div { width: 50%; margin: 20px auto; text-align: center; }
+        #pageLoad, #clickEvent, input { font-size: 30px; }
+        input { text-align: center; }
+        #clickEvent:hover { cursor: pointer; }
+    </style>
+  </head>
+  <body>
+ <header class="intro">
+ <h1> jQuery Animate Numbers Example </h1>
+ <p> A jQuery plugin for animating numbers from an existing number to a new one.</p>
+ <p> Written in HTML and JavaScript (jQuery)... </p>
+ <div class="action">
+ <a href="https://www.codehim.com/text-input/jquery-animate-numbers-animated-number-increase/" title="Back to download and tutorial page" class="btn back">Back to Tutorial</a>
+ <a href="https://github.com/talmand/jquery-animate-numbers" title="View, Fork or Star on GitHub" class="btn github">View on GitHub</a>
+ </div>
+ 
+ </header>
+  
+ <main>
+  <article>
+  <p>The following is the example of animate numbers. </p>
+
+      <div>
+        <p>This number will animate on document ready:</p>
+        <div id="pageLoad">0</div>
+    </div>
+    <div>
+        <p>This number will animate on click:</p>
+        <div id="clickEvent">4321</div>
+    </div>
+    <div>
+        <p>Text input with comma:</p>
+        <input id="num_input" value="1234" />
+    </div>
+    <div>
+        <p>Text input without comma:</p>
+        <input id="num_input2" value="1234" />
+    </div>
+    <div>
+        <p>Number input:</p>
+        <input type="number" id="num_input3" value="1234" />
+    </div>
+
+  </article>
+ </main>
+ 
+  <footer class="credit">Author: talmand - Distributed By: <a title="Awesome web design code & scripts" href="https://www.codehim.com?source=demo-page" target="_blank">CodeHim</a></footer>
+  
+  <!-- jQuery -->
+<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+<!-- Animate Numbers JS -->
+<script src="js/jquery.animateNumbers.min.js"></script>
+  <script>
+        $(document).ready(function() {
+           
+            $("#pageLoad").animateNumbers(4321, true, 2000);
+            
+            $("#clickEvent").on("click", function() {
+                $(this).animateNumbers(1234, false);
+            });
+            
+            $("#num_input").animateNumbers(4321);
+            $("#num_input2").animateNumbers(4321, false, 2000, "linear");
+            $("#num_input3").animateNumbers(4321, true, 2000, "linear");
+            
+        });
+    </script>
+  
+  </body>
+</html>

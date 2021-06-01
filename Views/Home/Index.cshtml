@@ -1,0 +1,172 @@
+﻿@using IMS.ViewModels
+
+@*@model Dashboard*@
+
+@section Stylesheets {
+    <link href="\css\home.css" rel="stylesheet">
+}
+
+
+<div class="row">
+
+    <div class="col">
+
+
+        <h1 class="text-center mt-3 animate__animated animate__zoomIn">DASHBOARD</h1>
+
+
+    </div>
+
+
+
+</div>
+
+
+
+
+
+<div class="row">
+
+    @*FOR SHOP*@
+    <div class="col-md-4  animate__animated animate__zoomIn  card-border mb-1">
+        <div class="card custom-card">
+            <div class="card-body custom-card-body ">
+                <h5 class="card-title font-weight-bold text-center">
+                    <span id="shopNum">0</span>
+                    Shops <i class="fas fa-store"></i>
+                </h5>
+                <div >
+                    <ul id="shop-text">
+
+
+
+                    </ul>
+
+
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+    @*FOR PRODUCTS*@
+    <div class="col-md-4 animate__animated animate__zoomIn mb-1">
+        <div class="card custom-card">
+            <div class="card-body custom-card-body">
+                <h5 class="card-title font-weight-bold text-center">
+                    <span id="productNum">0</span>
+                    Products <i class="fas fa-shopping-cart"></i>
+                </h5>
+                @*<p class="card-text">With supporting text below as a natural lead-in to additional content.</p>*@
+            </div>
+        </div>
+    </div>
+
+
+    @*FOR ORDERS*@
+    <div class="col-md-4 animate__animated animate__zoomIn mb-1">
+        <div class="card custom-card">
+            <div class="card-body custom-card-body text-center ">
+                <h5 class="card-title font-weight-bold">
+                    <span id="OrderNum">0</span>
+                    Orders <i class="fas fa-dollar-sign"></i>
+                </h5>
+                @*<p class="card-text">With supporting text below as a natural lead-in to additional content.</p>*@
+            </div>
+        </div>
+    </div>
+
+
+</div>
+
+
+
+
+
+
+
+
+
+@section Scripts{
+    <script>
+
+        $(function () {
+            
+            async function sendRequest() {
+                var serviceURL = 'https://localhost:44384/Home/Dashboard';
+                try {
+                    const response =
+                        await fetch(serviceURL);
+                    //responded but there is an error
+                    if (!response.ok) {
+      /*                 alert("oops")*/
+                    }
+                    else {
+                        const dashboard = await response.json()
+                        //console.log(dashboard)
+/*                        alert(dashboard.Shops)*/
+                        $("#shopNum").animateNumbers(dashboard.Shops.length);
+                        $("#productNum").animateNumbers(dashboard.Products);
+                        $("#OrderNum").animateNumbers(dashboard.Orders);
+
+
+                        for (shop of dashboard.Shops ){
+
+                            $("#shop-text").append(
+
+                                `
+                            <li class="animate__animated animate__zoomIn">
+${shop.ShopName}  
+                                <ul>
+
+
+<li>
+
+    ${shop.Platform.PlatformName}
+
+</li>
+<li>
+
+    ${shop.Products.length} Products
+
+</li>
+
+
+
+</ul>
+
+
+
+
+
+</li>
+`
+
+                            )
+
+                        }
+
+                    }
+
+                }
+                //no response , weird error that caused the service to crash etc.
+                catch (error) {
+                    console.log(error)
+                }
+            }
+
+            sendRequest() 
+
+
+
+        })
+
+
+
+
+
+    </script>
+}

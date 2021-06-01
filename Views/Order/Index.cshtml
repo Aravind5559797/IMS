@@ -1,0 +1,374 @@
+﻿@model IEnumerable<Order>
+
+
+@section Stylesheets {
+    <link href="\css\index.css" rel="stylesheet">
+}
+
+
+<div class="container">
+    <div class="row pt-4">
+        <div class="col-2">
+            <h2 class="text-black font-weight-bold animate__animated animate__fadeIn">Order List</h2>
+        </div>
+        <div class="col-5">
+
+        </div>
+        <div class="col-5 text-right">
+            <button class="add-button animate__animated animate__fadeIn" id="AddOrder"><i class="fas fa-plus"></i> Test Add Order Entry</button>
+        </div>
+        <div class="col-5">
+            @*<button id="test">test</button>
+            <div color="red" id="test2">sdfsdf</div>*@
+        </div>
+    </div>
+
+    <br />
+    <br />
+
+    <div class="row">
+        <div class="col">
+            @if (Model.Count() > 0)
+            {<div class="table-responsive">
+    <table class="table  animate__animated animate__fadeIn text-center">
+        <thead class="thead-light">
+            <tr>
+                <th>
+                    OrderId
+                </th>
+                <th>
+                    ShopId
+                </th>
+                <th>
+                    ShopName
+                </th>
+                <th>
+                    Created Date
+                </th>
+                <th>
+                    Delivery Address
+                </th>
+                <th>
+                    User Email
+                </th>
+                <th>
+                    View Order List
+                </th>
+                <th>
+                    Total Order Price
+                </th>
+                <th>
+                    Delete Order
+                </th>
+            </tr>
+        </thead>
+
+        <tbody id="table-body">
+            @foreach (var order in Model)
+            {
+                <tr class="@order.OrderId">
+                    <td>
+                        @order.OrderId
+                    </td>
+                    <td>
+                        @order.HistShopId
+                    </td>
+                    <td>
+                        @order.HistShopName
+                    </td>
+
+                    <td>
+                        @order.CreatedDate
+                    </td>
+                    <td>
+                        @order.Address
+                    </td>
+                    <td>
+                        @order.Email
+                    </td>
+                    <td>
+                        <a class="btn btn-primary custom-btn" asp-action="DisplayOrder" asp-route-id="@order.OrderId"><i class="far fa-eye"></i></a>
+                    </td>
+                    <td>
+                        @order.OrderTotalPrice
+                    </td>
+                    <td>
+                        <a class="btn btn-danger mx-2 delete-order custom-btn" id="@order.OrderId"><i class="fas fa-trash-alt"></i></a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+
+</div>
+            }
+            else
+            {
+
+                <div class="alert alert-danger animate__animated animate__zoomIn" role="alert">
+                    Sorry no Orders are available!
+                </div>
+            }
+
+        </div>
+    </div>
+
+
+
+
+</div>
+
+
+@section Scripts{
+
+    <script>
+
+
+        $(document).ready(function () {
+
+
+            //Test add order for entry
+            $("#AddOrder").click(async function () {
+                var user = {
+                    "HistShopId": 8,
+                    "HistShopName": "Baseus Technology",
+                    "CreatedDate": "24/1/1997",
+                    "Address": "Lorong 1A Toa Payoh 138A 311138",
+                    "Email": "gowthamaravindfaiz@gmail.com",
+                    "OrderTotalPrice": 100,
+                    "Orders": [
+                        {
+                            "HistProductId": 1005,
+                            "HistName": "USB C Wire Samsung",
+                            "HistDescription": "<p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.</p>",
+                            "HistShortDescription": "Great cable",
+                            "HistImage": "https://images-na.ssl-images-amazon.com/images/I/41dG-cOH0GL._AC_SY780_.jpg",
+                            "Histprice": 4,
+                            "HistQuantity": 3
+                        }
+                    ]
+                }
+                try {
+
+                    let response = await fetch("https://localhost:44384/Order/AddOrder", {
+                        method: "POST"
+                        ,
+                        headers: {
+                            'Content-Type': 'application/json;charset=utf-8'
+                        },
+                        body: JSON.stringify(user)
+
+                    });
+
+                    if (!response.ok) {
+                        var result = await response.json
+                        console.log(result)
+
+
+
+
+                    } else {
+                        console.log(response.ok)
+                        var result = await response.json()
+                        console.log(result.OrderId)
+                        $("#table-body").append(
+                         `
+                            <tr class=${result.OrderId}>
+                                <td>
+                                    ${result.OrderId}
+                                </td>
+                                <td>
+                                    ${result.HistShopId}
+                                </td>
+                                <td>
+                                    ${result.HistShopName}
+                                </td>
+
+                                <td>
+                                    ${result.CreatedDate}
+
+                                </td>
+                                <td>
+                                    ${result.Address}
+                                </td>
+                                <td>
+                                    ${result.Email}
+                                </td>
+                                <td>
+                                    <a class="btn btn-primary custom-btn" asp-action="DisplayOrder" asp-route-id="${result.OrderId}"><i class="far fa-eye"></i></a>
+                                </td>
+                                <td>
+                                    ${result.OrderTotalPrice}
+                                </td>
+                                <td>
+                                    <a class="btn btn-danger mx-2 delete-order-${result.OrderId} custom-btn"  id="${result.OrderId}"><i class="fas fa-trash-alt"></i></a>
+                                </td>
+                            </tr>
+
+                            `
+
+
+
+
+                        )
+
+
+                        $(`.delete-order-${result.OrderId}`).click(async function () {
+
+                            id = $(this).prop("id")
+      /*                      alert("first")*/
+                            try {
+                                let response = await fetch(`https://localhost:44384/Order/DeleteOrder?id=${id}`);
+
+                                if (!response.ok) {
+                                    var result = await response.json;
+                                    console.log(result);
+
+                                    //alert("hello")
+
+                                }
+
+                                else {
+                                    var result = await response.json;
+
+                                    console.log(result);
+                                    /*        $("." + id).remove();*/
+
+
+                              /*      $("." + id).remove();*/
+                                    $("." + id).fadeOut(300, function () { $(this).remove(); });
+
+
+
+
+
+                                    return result
+                                }
+
+
+                            }
+                            catch (error) {
+                                console.log(error);
+                            }
+
+
+
+                        });
+                    }
+
+                }
+                catch (error) {
+                    console.log(error);
+                }
+            });
+
+            
+
+
+            //ORDER DELETE
+            $(".delete-order").click(async function () {
+              
+                id = $(this).prop("id")
+/*                alert("second")*/
+                try {
+                    let response = await fetch(`https://localhost:44384/Order/DeleteOrder?id=${id}`);
+
+                    if (!response.ok) {
+                        var result = await response.json;
+                        console.log(result);
+
+                        //alert("hello")
+
+                    }
+
+                    else {
+                        var result = await response.json;
+
+                        console.log(result);
+                    /*        $("." + id).remove();*/
+
+
+                        $("." + id).fadeOut(300, function () { $(this).remove(); });
+
+
+
+
+                        
+
+                        return result
+                    }
+
+
+                }
+                catch (error) {
+                    console.log(error);
+                }
+
+
+
+            });
+
+
+
+
+        });
+
+    </script>
+
+   
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

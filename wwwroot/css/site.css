@@ -1,0 +1,150 @@
+﻿/*FOR NAVBAR*/
+.nav-config {
+    background-color: #fbbe28;
+    font-family: 'KoHo', sans-serif;
+    font-weight: 600;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 100;
+    min-height:80px;
+}
+
+.logo-nav {
+    width: 11%;
+    height: auto;
+    min-width:100px; 
+}
+
+.logo-link {
+    display: block;
+    width: 100px;
+}
+
+
+
+/*TO ALLOW FOR FIXED FOOTER*/
+
+.content {
+    padding-top: 80px;
+}
+
+.logo-foot {
+    width: 100%;
+    height: auto;
+/*    min-width: 150px;*/
+max-width:150px;
+}
+
+
+#page-container {
+    position: relative;
+    min-height: 100vh;
+}
+
+#content-wrap {
+    padding-bottom:300px; /* Footer height */
+}
+
+
+
+.footer {
+    background-color: #fbbe28;
+    min-height: 100px;
+    position: absolute;
+    bottom: 0;
+    width: 100vw;
+    height: 300px;
+    font-family: 'KoHo', sans-serif;
+
+}
+
+@media only screen and (min-width: 768px) {
+
+    .footer {
+        height: 240px;
+    }
+
+    #content-wrap {
+        padding-bottom: 240px;
+    }
+}
+
+@media only screen and (min-width: 992px) {
+    /* For desktop: */
+    .footer {
+        height: 170px;
+    }
+
+    #content-wrap {
+        padding-bottom: 170px;
+    }
+}
+
+@media only screen and (min-width: 1200px) {
+    /* For desktop: */
+    .footer{
+        height: 130px;
+    }
+
+    #content-wrap {
+        padding-bottom: 130px;
+    }
+}
+
+
+body, html {
+     overflow-x:hidden;
+}
+
+/*BODY STYLING*/
+
+body {
+    background-color: #f2dda2;
+    font-family: 'KoHo', sans-serif !important;
+}
+
+
+
+
+/*SOCIAL MEDIA ICONS*/
+.sm-icons{
+    font-size:48px;
+    text-align:center;
+}
+
+
+/*SCROLL TO TOP*/
+
+#button {
+    display: inline-block;
+    background-color: #e2a40d;
+    width: 50px;
+    height: 50px;
+    text-align: center;
+    border-radius: 4px;
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    transition: background-color .3s, opacity .5s, visibility .5s;
+    opacity: 0;
+    visibility: hidden;
+    z-index: 1000;
+    color: black;
+}
+
+
+    #button:hover {
+        cursor: pointer;
+        background-color: #fad579;
+
+    }
+
+    #button:active {
+        background-color: #fad579;
+    }
+
+    #button.show {
+        opacity: 1;
+        visibility: visible;
+    }
